@@ -1,10 +1,12 @@
-package com.example.filmfinder.ui.main
+package com.example.filmfinder.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
 import com.example.filmfinder.R
 
 /**
@@ -13,13 +15,10 @@ import com.example.filmfinder.R
  * create an instance of this fragment.
  */
 class MovieDetailsFragment : Fragment() {
+    private val viewModel: MovieViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = MovieDetailsFragment()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -27,5 +26,12 @@ class MovieDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_movie_details, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.selected.observe(viewLifecycleOwner) {
+            // Update the UI
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.example.filmfinder.data
 
+import com.google.gson.annotations.SerializedName
+
 /**
- * Data class for holding information about a particular movie.
+ * Data class representing an individual movie result returned by The Movie Database.
  */
 data class Movie (
-    var id: String = "",
-    var title: String = "",
-    var posterPath: String = ""
+    @field:SerializedName("id") var id: String,
+    @field:SerializedName("title") var title: String,
+    @field:SerializedName("poster_path") var posterPath: String
 )
