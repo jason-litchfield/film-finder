@@ -8,10 +8,13 @@ android {
 
     defaultConfig {
         applicationId "com.samples.film_finder"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "TMDB_API_V3", "\"" + getApiKey() + "\"")
+        buildConfigField("String", "TMDB_API_V4", "\"" + getApiToken() + "\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,8 +35,30 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
 
+/**
+ * Fetches the API key to be used as "api_key" query parameter to authenticate requests to
+ * The Movie Database.
+ *
+ * @return the API key query parameter value.
+ */
+def getApiKey() {
+    return project.findProperty("tmdb.api.key")
+}
+
+/**
+ * Fetches the API bearer token to be used in the authentication header attached to requests to
+ * The Movie Database.
+ *
+ * @return the bearer token value.
+ */
+def getApiToken() {
+    return project.findProperty("tmdb.api.token")
 }
