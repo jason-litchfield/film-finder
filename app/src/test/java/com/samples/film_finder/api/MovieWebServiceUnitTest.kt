@@ -8,14 +8,12 @@ import org.junit.Test
 /**
  * Test class for the interacting with The Movie Database API.
  */
-class WebServiceUnitTest {
-    private lateinit var service: WebService
-    private var imageConfig: ImageConfig? = null
+class MovieWebServiceUnitTest {
+    private lateinit var service: MovieWebService
 
     @Before
     fun setup() {
-        service = WebService()
-        imageConfig = service.getImageConfig()
+        service = MovieWebService()
     }
 
     @Test
@@ -31,18 +29,23 @@ class WebServiceUnitTest {
     }
 
     @Test
-    fun getImageConfig_validRequest_hasImageConfigData() {
-        assertNotNull(imageConfig)
-    }
-
-    @Test
-    fun getImageConfig_validRequest_hasImageBaseUrls() {
-        assertNotEquals("Image base url cannot be empty.", "", imageConfig?.baseUrl)
-        assertNotEquals("Image secure base url cannot be empty.", "", imageConfig?.secureBaseUrl)
-    }
-
-    @Test
     fun getImageConfig_validRequest_hasPosterSizes() {
-        assertNotEquals("Received an empty list for poster sizes.", emptyList<String>(), imageConfig?.posterSizes)
+        assertNotEquals(
+            "Received an empty list for poster sizes.",
+            emptyList<String>(),
+            service.getPosterSizes()
+        )
+    }
+
+    @Test
+    fun getPopularMovies_validRequest_hasMovieList() {
+        assertNotNull(service.getPopularMovies())
+    }
+
+    // Hate this test name. Is this class still needed?
+    @Test
+    fun getImage_returnsNonNullBitmap() {
+        val image = service.getImage("https://image.tmdb.org/t/p/w154/b5XfICAvUe8beWExBz97i0Qw4Qh.jpg")
+        assertNotNull(image)
     }
 }
